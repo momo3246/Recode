@@ -2,21 +2,23 @@
 % Please edit documentation in R/RecodeR.R
 \name{back_code}
 \alias{back_code}
-\title{Recodes or transforms data collected from market reserach study}
+\title{Back code OTHERS into pre-coded question}
 \usage{
 back_code(raw, coded)
 }
 \arguments{
-\item{raw}{}
+\item{raw}{dataframe with 2 columns}
 
-\item{coded}{}
-}
-\value{
-recoded
+\item{coded}{datafrane with 2 columns}
 }
 \description{
-This package performs various operations in data transfomation commonly seen in market reserach study
+This function is to back code verbatim into a pre-coded question
+}
+\details{
+The raw and coded dataframes should have one common column for SN mathing. If no need for SN matching, just populate both SN columns with the same vector.
+The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
 }
 \examples{
+back_code(c("2,9,97"), c("3"))
 
 }

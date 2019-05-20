@@ -2,19 +2,17 @@
 % Please edit documentation in R/RecodeR.R
 \name{dup_remove}
 \alias{dup_remove}
-\title{Recodes or transforms data collected from market reserach study}
+\title{Remove duplicate(s)}
 \usage{
 dup_remove(vector)
 }
 \arguments{
-\item{vector}{}
-}
-\value{
-results
+\item{vector}{character vector}
 }
 \description{
-This package performs various operations in data transfomation commonly seen in market reserach study
+This function is to remove any duplicate in MA question
 }
 \examples{
+dup_remove(c("1,2,3,2,3,3"))
 
 }

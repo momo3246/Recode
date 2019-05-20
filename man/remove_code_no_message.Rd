@@ -2,7 +2,7 @@
 % Please edit documentation in R/RecodeR.R
 \name{remove_code_no_message}
 \alias{remove_code_no_message}
-\title{Recodes or transforms data collected from market reserach study}
+\title{Remove particular code(s)}
 \usage{
 remove_code_no_message(vector, remove)
 }
@@ -12,7 +12,7 @@ remove_code_no_message(vector, remove)
 \item{remove}{}
 }
 \description{
-This package performs various operations in data transfomation commonly seen in market reserach study
+This function is to remove code(s) in either SA or MA question
 }
 \examples{
 

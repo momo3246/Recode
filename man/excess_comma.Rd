@@ -2,22 +2,20 @@
 % Please edit documentation in R/RecodeR.R
 \name{excess_comma}
 \alias{excess_comma}
-\title{Recodes or transforms data collected from market reserach study}
+\title{Remove excessive comma}
 \usage{
 excess_comma(vector)
 }
 \arguments{
-\item{vector}{gggg}
+\item{vector}{character vector with excessive comma}
 }
 \value{
-results
+character vector without excessive comma
 }
 \description{
-This package performs various operations in data transfomation commonly seen in market reserach study
-}
-\details{
-ggg
+This function is to remove any trailing, leading as well as consecutive comma in between.
 }
 \examples{
+excess_comma(c(",,1,,,2,,3,,,"))
 
 }

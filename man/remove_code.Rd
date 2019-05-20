@@ -2,18 +2,21 @@
 % Please edit documentation in R/RecodeR.R
 \name{remove_code}
 \alias{remove_code}
-\title{Recodes or transforms data collected from market reserach study}
+\title{Remove particular code(s)}
 \usage{
 remove_code(vector, remove)
 }
 \arguments{
-\item{vector}{}
+\item{vector}{character vector (MA question) or single numeric value (SA question)}
 
-\item{remove}{}
+\item{remove}{character string (only 1 code to remove) or character vector (more than 1 code to remove)}
 }
 \description{
-This package performs various operations in data transfomation commonly seen in market reserach study
+This function is to remove code(s) in either SA or MA question
 }
 \examples{
+remove_code(c("1", "2,4", "3,5"), remove=c(2,3))#remove more than 1 code in MA question
+remove_code(c("1", "2,4", "3,5"), remove=2)#remove only 1 code in MA question
+remove_code(c(1, 2, 3), remove=3)#remove 1 code in SA question
 
 }

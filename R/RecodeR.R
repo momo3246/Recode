@@ -1,15 +1,14 @@
-#' @title Recodes or transforms data collected from market reserach study
+#' @title Remove excessive comma
 #'
-#' @description This package performs various operations in data transfomation commonly seen in market reserach study
-#'
-#' @details ggg
+#' @description This function is to remove any trailing, leading as well as consecutive comma in between.
 #'
 #' @param vector
-#' gggg
+#' character vector with excessive comma
 #'
-#' @return results
+#' @return character vector without excessive comma
 #'
 #' @examples
+#' excess_comma(c(",,1,,,2,,3,,,"))
 #'
 #' @export excess_comma
 
@@ -19,17 +18,20 @@ excess_comma <- function(vector) {
   ifelse(is.na(results), "", results)#Just to turn NA (NOT "NA" string) into empty string
 }
 
-#' @title Recodes or transforms data collected from market reserach study
+#' @title Remove particular code(s)
 #'
-#' @description This package performs various operations in data transfomation commonly seen in market reserach study
+#' @description This function is to remove code(s) in either SA or MA question
 #'
 #' @param vector
+#' character vector (MA question) or single numeric value (SA question)
 #'
 #' @param remove
-#'
-#' @return NULL
+#' character string (only 1 code to remove) or character vector (more than 1 code to remove)
 #'
 #' @examples
+#' remove_code(c("1", "2,4", "3,5"), remove=c(2,3))#remove more than 1 code in MA question
+#' remove_code(c("1", "2,4", "3,5"), remove=2)#remove only 1 code in MA question
+#' remove_code(c(1, 2, 3), remove=3)#remove 1 code in SA question
 #'
 #' @export remove_code
 
@@ -49,9 +51,9 @@ remove_code <- function(vector, remove) {
   }
 }
 
-#' @title Recodes or transforms data collected from market reserach study
+#' @title Remove particular code(s)
 #'
-#' @description This package performs various operations in data transfomation commonly seen in market reserach study
+#' @description This function is to remove code(s) in either SA or MA question
 #'
 #' @param vector
 #'
@@ -76,15 +78,15 @@ remove_code_no_message <- function(vector, remove) {
   }
 }
 
-#' @title Recodes or transforms data collected from market reserach study
+#' @title Remove duplicate(s)
 #'
-#' @description This package performs various operations in data transfomation commonly seen in market reserach study
+#' @description This function is to remove any duplicate in MA question
 #'
 #' @param vector
-#'
-#' @return results
+#' character vector
 #'
 #' @examples
+#' dup_remove(c("1,2,3,2,3,3"))
 #'
 #' @export dup_remove
 #Remove duplicate code
@@ -93,24 +95,32 @@ dup_remove  <- function(vector) {
     results <- sapply(strsplit(vector, ",", fixed = TRUE), function(x)
       paste(unique(x), collapse = ","))
     results <- ifelse(results == "NA", "", results)#Just to turn NA string into empty string
+    results
   } else {
     stop("NOT applicable to SA question")
   }
 }
 
-#' @title Recodes or transforms data collected from market reserach study
+#' @title Back code OTHERS into pre-coded question
 #'
-#' @description This package performs various operations in data transfomation commonly seen in market reserach study
+#' @description This function is to back code verbatim into a pre-coded question
 #'
 #' @param raw
+#' dataframe with 2 columns
 #'
 #' @param coded
+#' datafrane with 2 columns
 #'
-#' @return recoded
+#' @details
+#' The raw and coded dataframes should have one common column for SN mathing. If no need for SN matching, just populate both SN columns with the same vector.
+#' The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
 #'
 #' @examples
+#' back_code(c("2,9,97"), c("3"))
 #'
 #' @import stringr
+#'
+#' @import dplyr
 #'
 #' @export back_code
 #Back code OTHERS into pre-coded question
