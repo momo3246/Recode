@@ -117,7 +117,8 @@ dup_remove  <- function(vector) {
 #' @examples
 #' raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)#Populate a dataframe
 #' coded <- data.frame(SN=c(2000, 1, 3, 4), coded_data=c(NA, "2,3", "9", "97"), stringsAsFactors=FALSE)#Populate another dataframe
-#' back_code(raw, coded)#You will see the output that shows 1) all duplicate should be removed and 2) SA question is also applicable
+#' #You will see the output that shows 1) all duplicate should be removed and 2) SA question is also applicable
+#' back_code(raw, coded)
 #'
 #' @import stringr
 #'
