@@ -116,9 +116,9 @@ dup_remove  <- function(vector) {
 #' The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
 #'
 #' @examples
-#' raw <- data.frame(SN=c(1, 2000, 3), raw_data=c("1, 2, 97", "1,3", "97"))
-#' coded <- data.frame(SN=c(2000, 1, 3), raw_data=c(NA, "2,3", "9"))
-#' back_code(c("2,9,97"), c("3"))
+#' raw <- data.frame(SN=c(1, 2000, 3), raw_data=c("1,2,97", "1,3", "97"), stringsAsFactors=FALSE)
+#' coded <- data.frame(SN=c(2000, 1, 3), coded_data=c(NA, "2,3", "9"), stringsAsFactors=FALSE)
+#' back_code(raw, coded)
 #'
 #' @import stringr
 #'
@@ -134,12 +134,14 @@ back_code <- function(raw, coded) {
     recoded <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), paste(raw_without_97, combined[, 3], sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
     recoded <- excess_comma(recoded)#Remove excess comma
     recoded <- dup_remove(recoded)#Remove any duplicates in resulted recoded data
+    recoded
   } else {
     message("You are processing a SA question")
     combined <- join(raw, coded)
     raw_without_97 <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), remove_code_no_message(combined[, 2], 97), combined[, 2])#Remove code "97" if raw data has it and coded data is not NA
     recoded <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), paste(raw_without_97, combined[, 3], sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
     recoded <- excess_comma(recoded)#Do not remove duplicate for SA question
+    recoded
   }
 }
 
