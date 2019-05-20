@@ -122,7 +122,7 @@ dup_remove  <- function(vector) {
 #'
 #' @import stringr
 #'
-#' @import dplyr
+#' @import plyr
 #'
 #' @export back_code
 #Back code OTHERS into pre-coded question
