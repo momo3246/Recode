@@ -7,13 +7,16 @@
 excess_comma(vector)
 }
 \arguments{
-\item{vector}{}
+\item{vector}{gggg}
 }
 \value{
 results
 }
 \description{
 This package performs various operations in data transfomation commonly seen in market reserach study
+}
+\details{
+ggg
 }
 \examples{
 

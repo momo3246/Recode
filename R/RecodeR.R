@@ -2,7 +2,10 @@
 #'
 #' @description This package performs various operations in data transfomation commonly seen in market reserach study
 #'
+#' @details ggg
+#'
 #' @param vector
+#' gggg
 #'
 #' @return results
 #'
