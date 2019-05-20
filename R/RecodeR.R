@@ -111,7 +111,7 @@ dup_remove  <- function(vector) {
 #' datafrane with 2 columns
 #'
 #' @details
-#' The raw and coded dataframes should have one common column for SN mathing. If no need for SN matching, just populate both SN columns with the same vector.
+#' The raw and coded dataframes should have one common column for SN matching. If no need for SN matching, just populate both SN columns with the same vector.
 #' The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
 #'
 #' @examples
