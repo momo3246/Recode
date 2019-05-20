@@ -19,6 +19,8 @@ The raw and coded dataframes should have one common column for SN mathing. If no
 The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
 }
 \examples{
+raw <- data.frame(SN=c(1, 2000, 3), raw_data=c("1, 2, 97", "1,3", "97"))
+coded <- data.frame(SN=c(2000, 1, 3), raw_data=c(NA, "2,3", "9"))
 back_code(c("2,9,97"), c("3"))
 
 }
