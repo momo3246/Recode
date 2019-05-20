@@ -1,4 +1,4 @@
-Package: recode
+Package: recodeG
 Type: Package
 Title: Recodes or transforms data collected from market reserach study
 Version: 0.1.1
