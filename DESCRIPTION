@@ -1,0 +1,13 @@
+Package: recode1gg
+Type: Package
+Title: Recodes or transforms data collected from market reserach study
+Version: 0.1.0
+Author: Kelvin Fung
+Maintainer: Kelvin Fung <kit319@hotmail.com>
+Description: This package performs various operations in data transfomation commonly seen in market reserach study
+License: GPL-2
+Encoding: UTF-8
+LazyData: FALSE
+Imports: 
+  stringr
+RoxygenNote: 6.1.1
