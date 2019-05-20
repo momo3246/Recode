@@ -88,15 +88,19 @@ remove_code_no_message <- function(vector, remove) {
 #' @examples
 #' dup_remove(c("1,2,3,2,3,3"))
 #'
+#' @import stringr
+#'
 #' @export dup_remove
 #Remove duplicate code
 dup_remove  <- function(vector) {
   if ( any(str_detect(vector, ",")==TRUE) ) {#Check for MA
+    message("You are processing a MA question")
     results <- sapply(strsplit(vector, ",", fixed = TRUE), function(x)
       paste(unique(x), collapse = ","))
     ifelse(results == "NA", "", results)#Just to turn NA string into empty string
   } else {
-    stop("NOT applicable to SA question")
+    message("You are processing a SA question")
+    print(vector)
   }
 }
 
@@ -108,7 +112,7 @@ dup_remove  <- function(vector) {
 #' dataframe with 2 columns
 #'
 #' @param coded
-#' datafrane with 2 columns
+#' dataframe with 2 columns
 #'
 #' @details
 #' The raw and coded dataframes should have one common column for SN matching. If no need for SN matching, just populate both SN columns with the same vector.
@@ -143,6 +147,33 @@ back_code <- function(raw, coded) {
     excess_comma(recoded)#Do not remove duplicate for SA question
   }
 }
+
+#' @title Combine 2 questions together
+#'
+#' @description This function is to combine 2 questions together. The returned value should have no duplicate and excessive comma.
+#'
+#' @param vector1
+#' character vector
+#'
+#' @param vector2
+#' character vector
+#'
+#' @examples
+#' vector1 <- c("1", "2", NA, NA)
+#' vector2 <- c("3", "2,3,4", NA, "1")
+#' combine(vector1, vector2)
+#’
+#'@export combine
+#'
+combine <- function(vector1, vector2) {
+  vector1 <- ifelse(is.na(vector1), "", vector1)#Replace NA with empty string
+  vector2 <- ifelse(is.na(vector2), "", vector2)#Replace NA with empty string
+  combined <- ifelse(vector1=="" & vector2=="", "", #Check for both empty string
+                    ifelse(vector1 != "" & vector2 != "", dup_remove(paste(vector1, vector2, sep=",")), #Check for neither empty string
+                    excess_comma(paste(vector1, vector2, sep=",")))) #Remainder falls into the category of either one is empty string
+  print(combined)
+}
+
 
 
 

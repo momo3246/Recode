@@ -9,7 +9,7 @@ back_code(raw, coded)
 \arguments{
 \item{raw}{dataframe with 2 columns}
 
-\item{coded}{datafrane with 2 columns}
+\item{coded}{dataframe with 2 columns}
 }
 \description{
 This function is to back code verbatim into a pre-coded question
