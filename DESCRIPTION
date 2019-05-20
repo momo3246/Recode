@@ -7,6 +7,6 @@ Maintainer: Kelvin Fung <kit319@hotmail.com>
 Description: This package performs various operations in data transfomation commonly seen in market reserach study
 License: GPL-2
 Encoding: UTF-8
-Import: dplyr stringr
+Import: plyr stringr
 LazyData: FALSE
 RoxygenNote: 6.1.1
