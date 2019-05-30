@@ -175,6 +175,77 @@ combine <- function(vector1, vector2) {
 }
 
 
+#' @title Attach textual label to pre-coded data
+#'
+#' @description This function is to attach textual label to numeric data by using a code spec
+#'
+#' @param data
+#' dataframe
+#'
+#' @param code_spec
+#' dataframe with 3 columns: first one being "varible name", second one being "code", and thrid one being "label"
+#'
+#' @details
+#' This function would show output covering 3 cases:
+#' 1) The variable being processed is not included in code spec, in which case the variable would be left unchanged;
+#' 2) The variable being processed is a SA question, and
+#' 3) The variable being process is a MA question
+#'
+#' Note that if the code is not specified in code spec, the cell containing that code would be showing NA, rather than displaying its original code
+#'
+#' Use xlsx::write.xlsx() to export, with the argument showNA being set as FALSE.
+#
+#' @examples
+#' data <- data.frame(vQ1=c(1, 3, 4, 99),
+#'                    vQ2=c("1,2", "3,4", "5,3", "1,2,99"),
+#'                    vQ3=c(NA, NA, NA, NA),
+#'                    vQ4=c(NA, 1, 3, "2,4"),
+#'                    vQ5=c(1,2,3,4), stringsAsFactors=FALSE)##Populate the "data" dataframe
+#' code_spec <- data.frame(variable_name=rep(c("vQ1", "vQ2", "vQ3", "vQ4"), each=5),
+#'                         code=rep(c(1,2,3,4,5), times=4),
+#'                         label=rep(c("1. 理光 (Ricoh)", "2. 富士施樂 (Fuji Xerox)", "3. 佳能 (Canon)", "4. 柯尼卡美能達 (Konica Minolta)", "5. 夏普 (Sharp)"), times=4))##Populate the "code_spec" dataframe
+#'
+#' labelling(data, code_spec)
+#'
+#' @import tidyverse
+#'
+#' @export labelling
+labelling <- function (data, code_spec) {
+  data <- as.data.frame(data) #Coerce into dataframe
+  code_spec <- as.data.frame(code_spec) #Coerce into dataframe
+  col_names <- colnames(data)
+  for ( i in col_names ) {
+    if ( nrow(code_spec[code_spec[, 1] == i, ]) == 0 ) {#Check if it is specified in code spec
+      message(paste('The variable "', i, '" was not specified in your code spec!', sep=""))
+    } else if ( is.na(any(str_detect(data[, i], ",")))==TRUE ) {#Check if it is an empty column
+      message(paste('The variable "', i, '" is an empty column!', sep=""))
+    } else if ( any(str_detect(data[, i], ",")==TRUE) ) {#Check if it is a MA question
+      message(paste('The variable "', i, '" is a MA question!', sep=""))
+      vector_numeric <- lapply(strsplit(data[, i], ","), FUN = as.numeric)#Convert c("1,2,3,4") to c(1,2,3,4) in MA question
+      #print(vector_numeric)
+      ith_variable <- code_spec[, 1] == i
+      matched_list <- lapply(vector_numeric, function(x)
+        match(x, code_spec[ith_variable, 2]))
+      #print(matched_list)
+      results <- lapply(matched_list, function(x)
+        code_spec[ith_variable, 3][x])
+      results <- lapply(results, function(x)
+        paste(x, collapse=","))
+      results <- unlist(results)
+      results <- ifelse(results=="NA", "", results)#Turn "NA" string into empty string
+      #print(results)
+      data <- mutate_at(data, c(i), function(x) {x <- results})
+    } else {#This condition handles SA question
+      message(paste('The variable "', i, '" is a SA question!', sep=""))
+      results <- code_spec[code_spec[, 1] == i, ]
+      results <- code_spec[code_spec[, 1] == i, 3][match(data[, i], results[, 2])]
+      data <- mutate_at(data, c(i), function(x) {x <- results})
+    }
+  }
+  return(data)
+}
+
+
 
 
 
