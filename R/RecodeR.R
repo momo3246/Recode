@@ -207,7 +207,7 @@ combine <- function(vector1, vector2) {
 #'
 #' labelling(data, code_spec)
 #'
-#' @import tidyverse
+#' @import dplyr
 #'
 #' @export labelling
 labelling <- function (data, code_spec) {
