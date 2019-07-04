@@ -131,7 +131,7 @@ dup_remove  <- function(vector) {
 #' @export back_code
 #Back code OTHERS into pre-coded question
 back_code <- function(raw, coded) {
-  if ( any(str_detect(raw[, 2], ",")==TRUE) ) {#Check for MA
+  if ( any(str_detect(raw[, 2], ",")==TRUE, na.rm = TRUE) ) {#Check for MA
     message("You are processing a MA question")
     combined <- join(raw, coded)
     raw_without_97 <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), remove_code_no_message(combined[, 2], 97), combined[, 2])#Remove code "97" if raw data has it and coded data is not NA
