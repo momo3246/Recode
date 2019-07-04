@@ -66,7 +66,7 @@ remove_code <- function(vector, remove) {
 #' @export
 #Remove_code (no message)
 remove_code_no_message <- function(vector, remove) {
-  if ( any(str_detect(vector, ",")==TRUE) ) {#Check if the vector represent a SA or MA question; Check for MA condition
+  if ( any(str_detect(vector, ",")==TRUE, na.rm = TRUE) ) {#Check if the vector represent a SA or MA question; Check for MA condition
     vector_numeric <- lapply(strsplit(vector, ","), FUN = as.numeric)
     results <- lapply(vector_numeric, function(x)
       paste(setdiff(x, remove), collapse=","))
@@ -244,8 +244,6 @@ labelling <- function (data, code_spec) {
   }
   return(data)
 }
-
-
 
 
 
