@@ -93,7 +93,7 @@ remove_code_no_message <- function(vector, remove) {
 #' @export dup_remove
 #Remove duplicate code
 dup_remove  <- function(vector) {
-  if ( any(str_detect(vector, ",")==TRUE) ) {#Check for MA
+  if ( any(str_detect(vector, ",")==TRUE, na.rm = TRUE) ) {#Check for MA
     message("You are processing a MA question")
     results <- sapply(strsplit(vector, ",", fixed = TRUE), function(x)
       paste(unique(x), collapse = ","))
