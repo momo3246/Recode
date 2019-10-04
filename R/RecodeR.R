@@ -104,19 +104,48 @@ dup_remove  <- function(vector) {
   }
 }
 
+#' @title Remove duplicate(s)
+#'
+#' @description This function is to remove any duplicate in MA question
+#'
+#' @param vector
+#' character vector
+#'
+#' @examples
+#' dup_remove(c("1,2,3,2,3,3"))
+#'
+#' @import stringr
+#'
+#Remove duplicate code
+dup_remove_no_message  <- function(vector) {
+  if ( any(str_detect(vector, ",")==TRUE, na.rm = TRUE) ) {#Check for MA
+    results <- sapply(strsplit(vector, ",", fixed = TRUE), function(x)
+      paste(unique(x), collapse = ","))
+    ifelse(results == "NA", "", results)#Just to turn NA string into empty string
+  } else {
+    print(vector)
+  }
+}
+
 #' @title Back code OTHERS into pre-coded question
 #'
 #' @description This function is to back code verbatim into a pre-coded question
 #'
 #' @param raw
-#' dataframe with 2 columns
+#' dataframe with 2 columns (for backcoding with SN matching); vector (for backcoding without SN mathcing)
 #'
 #' @param coded
-#' dataframe with 2 columns
+#' dataframe with 2 columns (for backcoding with SN matching); vector (for backcoding without SN mathcing)
+#'
+#' @param others_code
+#' Single integer
+#'
+#' @param SN_matching
+#' Logical
 #'
 #' @details
-#' The raw and coded dataframes should have one common column for SN matching. If no need for SN matching, just populate both SN columns with the same vector.
-#' The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
+#' Inputs of this function vary upon usage; If no need for SN matching, set FALSE in the argument "SN_matching", or vice
+#'
 #'
 #' @examples
 #' raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
@@ -130,23 +159,47 @@ dup_remove  <- function(vector) {
 #'
 #' @export back_code
 #Back code OTHERS into pre-coded question
-back_code <- function(raw, coded) {
-  if ( any(str_detect(raw[, 2], ",")==TRUE, na.rm = TRUE) ) {#Check for MA
-    message("You are processing a MA question")
-    combined <- join(raw, coded)
-    raw_without_97 <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), remove_code_no_message(combined[, 2], 97), combined[, 2])#Remove code "97" if raw data has it and coded data is not NA
-    recoded <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), paste(raw_without_97, combined[, 3], sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
-    recoded <- excess_comma(recoded)#Remove excess comma
-    dup_remove(recoded)#Remove any duplicates in resulted recoded data
-
+back_code <- function(raw, coded, others_code, SN_matching) {
+  if ( SN_matching == TRUE) {
+    if ( any(str_detect(raw[, 2], ",")==TRUE, na.rm = TRUE) ) {#Check for MA
+      message("You are processing a MA question")
+      combined <- join(raw, coded)
+      raw_without_97 <- ifelse(check_code(combined[, 2], others_code) & !is.na(combined[, 3]), remove_code_no_message(combined[, 2], others_code), combined[, 2])#Remove code "97" if raw data has it and coded data is not NA
+      recoded <- ifelse(check_code(combined[, 2], others_code) & !is.na(combined[, 3]), paste(raw_without_97, combined[, 3], sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
+      recoded <- excess_comma(recoded)#Remove excess comma
+      single_results <- dup_remove_no_message(recoded)#Remove any duplicates in resulted recoded data
+      detailed_results <- cbind(merge(raw, coded, sort = FALSE), results = single_results)
+      return(list(single_results, detailed_results))
+    } else {
+      message("You are processing a SA question")
+      combined <- join(raw, coded)
+      raw_without_97 <- ifelse(check_code(combined[, 2], others_code) & !is.na(combined[, 3]), remove_code_no_message(combined[, 2], others_code), combined[, 2])#Remove code "97" if raw data has it and coded data is not NA
+      recoded <- ifelse(check_code(combined[, 2], others_code) & !is.na(combined[, 3]), paste(raw_without_97, combined[, 3], sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
+      single_results <- excess_comma(recoded)#Do not remove duplicate for SA question
+      detailed_results <- cbind(merge(raw, coded, sort = FALSE), results = single_results)
+      return(list(single_results, detailed_results))
+      }
   } else {
-    message("You are processing a SA question")
-    combined <- join(raw, coded)
-    raw_without_97 <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), remove_code_no_message(combined[, 2], 97), combined[, 2])#Remove code "97" if raw data has it and coded data is not NA
-    recoded <- ifelse(str_detect(combined[, 2], "97") & !is.na(combined[, 3]), paste(raw_without_97, combined[, 3], sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
-    excess_comma(recoded)#Do not remove duplicate for SA question
-  }
+    if ( any(str_detect(raw, ",")==TRUE, na.rm = TRUE) ) {#Check for MA
+      message("You are processing a MA question")
+      raw_without_97 <- ifelse(check_code(raw, others_code) & !is.na(coded), remove_code_no_message(raw, others_code), raw)#Remove code "97" if raw data has it and coded data is not NA
+      recoded <- ifelse(check_code(raw, others_code) & !is.na(coded), paste(raw_without_97, coded, sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
+      recoded <- excess_comma(recoded)#Remove excess comma
+      single_results <- dup_remove_no_message(recoded)#Remove any duplicates in resulted recoded data
+      detailed_results <- cbind(raw = raw, coded = coded, results = single_results)
+      return(list(single_results, detailed_results))
+    } else {
+      message("You are processing a SA question")
+      raw_without_97 <- ifelse(check_code(raw, others_code) & !is.na(coded), remove_code_no_message(raw, others_code), raw)#Remove code "97" if raw data has it and coded data is not NA
+      recoded <- ifelse(check_code(raw, others_code) & !is.na(coded), paste(raw_without_97, coded, sep=","), raw_without_97)#Paste coded data to raw data (but without code "97" in some cases according to condtion as above)
+      single_results <- excess_comma(recoded)#Do not remove duplicate for SA question
+      detailed_results <- cbind(raw = raw, coded = coded, results = single_results)
+      return(list(single_results, detailed_results))
+      }
+    }
 }
+
+##Return a list in which consists of a dataframe (contains SN, raw data, coded data and results) and a vector (contains results only)
 
 #' @title Combine 2 questions together
 #'
@@ -245,6 +298,27 @@ labelling <- function (data, code_spec) {
   return(data)
 }
 
+#' @title Check particular code
+#'
+#' @description This function is to check if a particualr code exists
+#'
+#' @param vector
+#' character vector (for MA question); numeric vector (for SA question)
+#'
+#' @return logical vector
+#'
+#' @examples
+#' check_code(c("1,2,33"), 3)
+#'
+#' @export check_code
+
+#Check code in a numeric manner
+check_code <- function(vector, code) {
+  vector_numeric = lapply(strsplit(vector, ","), FUN = as.numeric)
+  results = lapply(vector_numeric, function(x) any(ifelse(x == code, TRUE, FALSE)))
+  results = unlist(results)
+  return(results)
+}
 
 
 
