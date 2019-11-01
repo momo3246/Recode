@@ -320,6 +320,28 @@ check_code <- function(vector, code) {
   return(results)
 }
 
+#' @title Get variables for tabulation
+#'
+#' @description This function is to get variables for tabulation
+#'
+#' @param character
+#' character
+#'
+#' @return list
+#'
+#' @examples
+#' get_tab_var("Q")
+#'
+#' @import stringr
+#'
+#' @export get_tab_var
+
+get_tab_var = function(start_with) {
+  variable_names_all = ls(envir = .GlobalEnv)
+  variable_names_tab.v = variable_names_all[str_starts(variable_names_all, start_with)]
+  variable_names_tab.l = sapply(variable_names_tab.v, get)
+  return(variable_names_tab.l)
+}
 
 
 
