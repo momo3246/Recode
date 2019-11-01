@@ -4,19 +4,22 @@
 \alias{back_code}
 \title{Back code OTHERS into pre-coded question}
 \usage{
-back_code(raw, coded)
+back_code(raw, coded, others_code, SN_matching)
 }
 \arguments{
-\item{raw}{dataframe with 2 columns}
+\item{raw}{dataframe with 2 columns (for backcoding with SN matching); vector (for backcoding without SN mathcing)}
 
-\item{coded}{dataframe with 2 columns}
+\item{coded}{dataframe with 2 columns (for backcoding with SN matching); vector (for backcoding without SN mathcing)}
+
+\item{others_code}{Single integer}
+
+\item{SN_matching}{Logical}
 }
 \description{
 This function is to back code verbatim into a pre-coded question
 }
 \details{
-The raw and coded dataframes should have one common column for SN matching. If no need for SN matching, just populate both SN columns with the same vector.
-The function works by replacing code "97" in the raw data with codes in the coded data, given that the manually coded column is not empty.
+Inputs of this function vary upon usage; If no need for SN matching, set FALSE in the argument "SN_matching", or vice
 }
 \examples{
 raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
