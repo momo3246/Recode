@@ -343,6 +343,38 @@ get_tab_var = function(start_with) {
   return(variable_names_tab.l)
 }
 
+#' @title Check if the variable has unique answer
+#'
+#' @description This function is to check if the variable contains unique answer. Return TRUE when it does while return FALSE when it does not.
+#'
+#' @param vector
+#' variable to be checked
+#'
+#' @param unique_code
+#' specify unique code
+#'
+#' @return vector
+#'
+#' @examples
+#' check_unique(c("1,2,3", "1,2", "1", 1)#Should return FALSE FALSE TRUE
+#'
+#' @import stringr
+#'
+#' @export check_unique
+
+check_unique <- function(vector, unique_code) {
+  if ( any(str_detect(vector, ",")==TRUE) ) {#Check if the vector represent a SA or MA question; Check for MA condition
+    message("You are processing a MA question")
+    vector_numeric <- lapply(strsplit(vector, ","), FUN = as.numeric)
+    results <- lapply(vector_numeric, function(x)
+      ifelse(length(x)>1 && (unique_code %in% x), FALSE, TRUE))
+    results <- unlist(results)
+    return(results)
+  } else {#SA condition
+    message("You are processing a SA question. All answers should be unique")
+  }
+}
+
 
 
 
