@@ -18,6 +18,6 @@ vector
 This function is to check if the variable contains unique answer. Return TRUE when it does while return FALSE when it does not.
 }
 \examples{
-check_unique(c("1,2,3", "1,2", "1", 1)#Should return FALSE FALSE TRUE
+check_unique(c("1,2,3", "1,2", "1"), 1)#Should return FALSE FALSE TRUE
 
 }
