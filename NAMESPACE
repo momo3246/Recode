@@ -2,6 +2,7 @@
 
 export(back_code)
 export(check_code)
+export(check_unique)
 export(combine)
 export(dup_remove)
 export(excess_comma)
