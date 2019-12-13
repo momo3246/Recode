@@ -356,9 +356,7 @@ get_tab_var = function(start_with) {
 #' @return vector
 #'
 #' @examples
-#' check_unique(c("1,2,3", "1,2", "1", 1)#Should return FALSE FALSE TRUE
-#'
-#' @import stringr
+#' check_unique(c("1,2,3", "1,2", "1"), 1)#Should return FALSE FALSE TRUE
 #'
 #' @export check_unique
 
