@@ -373,6 +373,41 @@ check_unique <- function(vector, unique_code) {
   }
 }
 
+#' @title Replace particular code(s)
+#'
+#' @description This function is to replace code(s) in either SA or MA question
+#'
+#' @param vector
+#' character vector (MA question) or single numeric value (SA question)
+#'
+#' @param to_be_replaced
+#' character string (only 1 code to be replaced) or character vector (more than 1 code to be replaced)
+#'
+#' @param replacement
+#' character string (only 1 code as replacement) or character vector (more than 1 code as replacement)
+#'
+#' @examples
+#' replace_code(c("1", "2,4", "3,5"), 1, 2)#Outputs"2" "2,4" "3,5"
+#' replace_code(c(1, 2, 3), 1, 99)#Outputs 99  2  3
+#'
+#' @export replace_code
+
+#Can remove more than 1 answer
+replace_code <- function(vector, to_be_replaced, replacement) {
+  if ( any(str_detect(vector, ",")==TRUE) ) {#Check if the vector represents a SA or MA question; Check for MA condition
+    message("You are processing a MA question")
+    vector_numeric <- lapply(strsplit(vector, ","), FUN = as.numeric)
+    results <- lapply(vector_numeric, function(x)
+      paste(replace(x, x==to_be_replaced, replacement), collapse=","))
+    results <- unlist(results)
+    ifelse(results == "NA", "", results)#Just to turn "NA" string into empty string
+  } else {#SA condition
+    message("You are processing a SA question")
+    results <- replace(vector, vector==to_be_replaced, replacement)#Replace element to be removed by empty string
+    ifelse(is.na(results), "", results)#Just to turn NA (NOT "NA" string) into empty string
+  }
+}
+
 
 
 
