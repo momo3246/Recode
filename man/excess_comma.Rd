@@ -16,6 +16,6 @@ character vector without excessive comma
 This function is to remove any trailing, leading as well as consecutive comma in between.
 }
 \examples{
-excess_comma(c(",,1,,,2,,3,,,"))
+excess_comma(c(",,1,,,2,,3,,,"))# "1,2,3"
 
 }

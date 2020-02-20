@@ -15,8 +15,8 @@ remove_code(vector, remove)
 This function is to remove code(s) in either SA or MA question
 }
 \examples{
-remove_code(c("1", "2,4", "3,5"), remove=c(2,3))#remove more than 1 code in MA question
-remove_code(c("1", "2,4", "3,5"), remove=2)#remove only 1 code in MA question
-remove_code(c(1, 2, 3), remove=3)#remove 1 code in SA question
+remove_code(c("1", "2,4", "3,5"), remove=c(2,3))#remove more than 1 code in MA question; "1" "4" "5"
+remove_code(c("1", "2,4", "3,5"), remove=2)#remove only 1 code in MA question; "1"   "4"   "3,5"
+remove_code(c(1, 2, 3), remove=3)#remove 1 code in SA question; "1" "2" ""
 
 }

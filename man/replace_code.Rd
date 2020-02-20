@@ -17,7 +17,7 @@ replace_code(vector, to_be_replaced, replacement)
 This function is to replace code(s) in either SA or MA question
 }
 \examples{
-replace_code(c("1", "2,4", "3,5"), 1, 2)#Outputs"2" "2,4" "3,5"
-replace_code(c(1, 2, 3), 1, 99)#Outputs 99  2  3
+replace_code(c("1", "2,4", "3,5"), 1, 2)#"2"   "2,4" "3,5"
+replace_code(c(1, 2, 3), 1, 99)#99  2  3
 
 }

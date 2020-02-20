@@ -8,7 +8,7 @@
 #' @return character vector without excessive comma
 #'
 #' @examples
-#' excess_comma(c(",,1,,,2,,3,,,"))
+#' excess_comma(c(",,1,,,2,,3,,,"))# "1,2,3"
 #'
 #' @export excess_comma
 
@@ -29,9 +29,9 @@ excess_comma <- function(vector) {
 #' character string (only 1 code to remove) or character vector (more than 1 code to remove)
 #'
 #' @examples
-#' remove_code(c("1", "2,4", "3,5"), remove=c(2,3))#remove more than 1 code in MA question
-#' remove_code(c("1", "2,4", "3,5"), remove=2)#remove only 1 code in MA question
-#' remove_code(c(1, 2, 3), remove=3)#remove 1 code in SA question
+#' remove_code(c("1", "2,4", "3,5"), remove=c(2,3))#remove more than 1 code in MA question; "1" "4" "5"
+#' remove_code(c("1", "2,4", "3,5"), remove=2)#remove only 1 code in MA question; "1"   "4"   "3,5"
+#' remove_code(c(1, 2, 3), remove=3)#remove 1 code in SA question; "1" "2" ""
 #'
 #' @export remove_code
 
@@ -86,7 +86,7 @@ remove_code_no_message <- function(vector, remove) {
 #' character vector
 #'
 #' @examples
-#' dup_remove(c("1,2,3,2,3,3"))
+#' dup_remove(c("1,2,3,2,3,3"))# "1,2,3"
 #'
 #' @import stringr
 #'
@@ -150,8 +150,33 @@ dup_remove_no_message  <- function(vector) {
 #' @examples
 #' raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
 #' coded <- data.frame(SN=c(2000, 1, 3, 4), coded_data=c(NA, "2,3", "9", "97"), stringsAsFactors=FALSE)##Populate another dataframe
-#' ##You will see the output that shows 1) all duplicate should be removed and 2) SA question is also applicable
-#' back_code(raw, coded)
+#' back_code(raw, coded, others_code = 97, SN_matching = TRUE)
+#' #[[1]] "1,2,3"  "1,3"    "9"      "1,2,97";
+#' #[[2]]
+#' #SN raw_data coded_data results
+#' #1    1   1,2,97        2,3   1,2,3
+#' #2 2000      1,3       <NA>     1,3
+#' #3    3       97          9       9
+#' #4    4   1,2,97         97  1,2,97
+#'
+#'# For matched SN
+#'raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
+#'coded1 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
+#'back_code(raw1$raw_data, coded1$coded_data, others_code = 97, SN_matching = FALSE)
+#'#[[1]]
+#'#[1] "1,2,5" "1,3"   "9"     "1,2,8"
+#'
+#'#[[2]]
+#'#raw      coded results
+#'#[1,] "1,2,97" "5"   "1,2,5"
+#'#[2,] "1,3"    NA    "1,3"
+#'#[3,] "97"     "9"   "9"
+#'#[4,] "1,2,97" "8"   "1,2,8"
+#'
+#'# For OTHERS code other than code 97
+#'raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"), stringsAsFactors=FALSE)##Populate a dataframe
+#'coded2 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
+#'back_code(raw2$raw_data, coded2$coded_data, others_code = 91, SN_matching = FALSE)
 #'
 #' @import stringr
 #'
@@ -214,7 +239,7 @@ back_code <- function(raw, coded, others_code, SN_matching) {
 #' @examples
 #' vector1 <- c("1", "2", NA, NA)
 #' vector2 <- c("3", "2,3,4", NA, "1")
-#' combine(vector1, vector2)
+#' combine(vector1, vector2) #"1,3"   "2,3,4" ""      "1"
 #’
 #'@export combine
 #'
@@ -305,10 +330,13 @@ labelling <- function (data, code_spec) {
 #' @param vector
 #' character vector (for MA question); numeric vector (for SA question)
 #'
+#' @param code
+#' integer
+#'
 #' @return logical vector
 #'
 #' @examples
-#' check_code(c("1,2,33"), 3)
+#' check_code(c("1,2,33"), 3) #FALSE
 #'
 #' @export check_code
 
@@ -324,7 +352,7 @@ check_code <- function(vector, code) {
 #'
 #' @description This function is to get variables for tabulation
 #'
-#' @param character
+#' @param start_with
 #' character
 #'
 #' @return list
@@ -345,7 +373,7 @@ get_tab_var = function(start_with) {
 
 #' @title Check if the variable has unique answer
 #'
-#' @description This function is to check if the variable contains unique answer. Return TRUE when it does while return FALSE when it does not.
+#' @description This function is to check if the variable contains unique answer. Return TRUE when it does while return FALSE when it does not. For example, DK (code 98) should exist in a MA question alone; if DK (code 98) exist along with others codes in a MA question, the function will return FALSE.
 #'
 #' @param vector
 #' variable to be checked
@@ -356,7 +384,7 @@ get_tab_var = function(start_with) {
 #' @return vector
 #'
 #' @examples
-#' check_unique(c("1,2,3", "1,2", "1"), 1)#Should return FALSE FALSE TRUE
+#' check_unique(c("1,2,3", "1,2", "1"), 1)#FALSE FALSE TRUE
 #'
 #' @export check_unique
 
@@ -387,8 +415,8 @@ check_unique <- function(vector, unique_code) {
 #' character string (only 1 code as replacement) or character vector (more than 1 code as replacement)
 #'
 #' @examples
-#' replace_code(c("1", "2,4", "3,5"), 1, 2)#Outputs"2" "2,4" "3,5"
-#' replace_code(c(1, 2, 3), 1, 99)#Outputs 99  2  3
+#' replace_code(c("1", "2,4", "3,5"), 1, 2)#"2"   "2,4" "3,5"
+#' replace_code(c(1, 2, 3), 1, 99)#99  2  3
 #'
 #' @export replace_code
 
@@ -408,6 +436,102 @@ replace_code <- function(vector, to_be_replaced, replacement) {
   }
 }
 
+#' @title Shift elements in vector by specific distance and direction
+#'
+#' @description This function is to shift elements in vector by specific distance and direction
+#'
+#' @param vector
+#' numeric or character vector
+#'
+#' @param distance
+#' integer
+#'
+#' @param direction
+#' c("left", "right")
+#'
+#' @examples
+#' shifter(1:4, 0, "left")#1 2 3 4
+#' shifter(1:4, 1, "left")#2 3 4 1
+#' shifter(1:4, 1, "left")#Distance to be shifted exceeds length of vector
+#'
+#' @export shifter
 
+# Reference: https://stackoverflow.com/questions/30542128/circular-shifting-arrays-in-r-by-distance-n
+shifter <- function(vector=x, distance=n, direction = c("left", "right")) {
+  if (distance > length(vector)) {
+    stop("Distance to be shifted exceeds length of vector")
+  }
+  if (direction == "left") {
+    if (distance == 0) {
+      results = vector
+      return(results)
+    } else {
+      results = c(tail(vector, -distance), head(vector, distance))
+      return(results)
+    }
+  } else if (direction == "right") {
+    if (distance == 0) {
+      results = vector
+      return(results)
+    } else {
+      results = c(tail(vector, distance), head(vector, -distance))
+      return(results)
+    }
+  }
+}
+
+#' @title Create rotational combination in JS array format
+#'
+#' @description This function is exclusively used for Rail Gen 2.0 project series to create rotational combination in JS array format
+#'
+#' @param vector
+#' numeric vector
+#'
+#' @param direction
+#' c("left", "right")
+#'
+#' @examples
+#' rotate_JS(c(1:4), "right")#"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
+#' rotate_JS(c(1:4), "left")#"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
+#'
+#' @import tibble
+#'
+#' @export rotate_JS
+
+rotate_JS <- function (vector=x, direction=c("left", "right")) {
+  # Initiate empty dataframe
+  df = data.frame(matrix(NA, nrow = length(vector), ncol = length(vector)))
+  # Rotate the elements and put each rotation into the dataframe
+  if (direction == "right") {
+    for (n in 1:length(vector)) {
+      df[ , n] = shifter(vector, n-1, "right")
+    }
+  } else if (direction == "left") {
+    for (n in 1:length(vector)) {
+      df[ , n] = shifter(vector, n-1, "left")
+    }
+  }
+  # Transpose the dataframe to get the correct orientation
+  df = t(df)
+  # Append the columns "row_id" and "dummy"
+  df = as.data.frame(cbind("row_id"=c(1:length(vector)), "dummy"=rep(0, length(vector)), df))
+  # Append the first syntax column with value ":["
+  df1 = add_column(df, "syntax1" = rep(":[", length(vector)), .after = 1)# Fixed
+
+  total_no_of_cols = 2*length(vector)+4# No. of columns in total
+  index_vector = c(3:total_no_of_cols)# Second syntax column starts from column 3
+  index_vector_r = index_vector[c(TRUE, FALSE)]# Only alternate columns need syntax column
+
+  #Reference from https://stackoverflow.com/questions/45741498/add-column-in-tibble-with-variable-column-name
+  #Append syntax columns with value ","
+  for (i in head(seq_along(index_vector_r), -1)) {
+    df1 = add_column(df1, !!(paste("syntax", i+1, sep="")) := rep(",", length(vector)), .after = index_vector_r[i])
+  }
+
+  #Append the last syntax column with value "],"
+  df2 = add_column(df1, !!(paste("syntax", length(vector)+2, sep="")) := rep("],", length(vector)), .after = total_no_of_cols-1)# Fixed
+
+  return(apply(df2, 1, paste, collapse=""))
+}
 
 

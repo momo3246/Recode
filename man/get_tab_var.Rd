@@ -7,7 +7,7 @@
 get_tab_var(start_with)
 }
 \arguments{
-\item{character}{character}
+\item{start_with}{character}
 }
 \value{
 list

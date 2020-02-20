@@ -13,6 +13,6 @@ dup_remove(vector)
 This function is to remove any duplicate in MA question
 }
 \examples{
-dup_remove(c("1,2,3,2,3,3"))
+dup_remove(c("1,2,3,2,3,3"))# "1,2,3"
 
 }

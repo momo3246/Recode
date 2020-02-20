@@ -17,5 +17,5 @@ This function is to combine 2 questions together. The returned value should have
 \examples{
 vector1 <- c("1", "2", NA, NA)
 vector2 <- c("3", "2,3,4", NA, "1")
-combine(vector1, vector2)
+combine(vector1, vector2) #"1,3"   "2,3,4" ""      "1"
 }
