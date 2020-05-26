@@ -7,9 +7,9 @@
 remove_code_no_message(vector, remove)
 }
 \arguments{
-\item{vector}{}
+\item{vector}{character vector (MA question) or single numeric value (SA question)}
 
-\item{remove}{}
+\item{remove}{character string (only 1 code to remove) or character vector (more than 1 code to remove)}
 }
 \description{
 This function is to remove code(s) in either SA or MA question
