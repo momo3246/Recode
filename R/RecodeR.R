@@ -429,11 +429,11 @@ replace_code <- function(vector, to_be_replaced, replacement) {
     results <- lapply(vector_numeric, function(x)
       paste(replace(x, x==to_be_replaced, replacement), collapse=","))
     results <- unlist(results)
-    ifelse(results == "NA", "", results)#Just to turn "NA" string into empty string
+    return(ifelse(results == "NA", "", results))#Just to turn "NA" string into empty string
   } else {#SA condition
     message("You are processing a SA question")
     results <- replace(vector, vector==to_be_replaced, replacement)#Replace element to be removed by empty string
-    ifelse(is.na(results), "", results)#Just to turn NA (NOT "NA" string) into empty string
+    return(ifelse(is.na(results), "", results))#Just to turn NA (NOT "NA" string) into empty string
   }
 }
 
