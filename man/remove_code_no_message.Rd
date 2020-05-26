@@ -14,6 +14,3 @@ remove_code_no_message(vector, remove)
 \description{
 This function is to remove code(s) in either SA or MA question
 }
-\examples{
-
-}

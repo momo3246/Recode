@@ -64,8 +64,7 @@ remove_code <- function(vector, remove) {
 #' @return NULL
 #'
 #' @examples
-#'
-#' @export
+
 #Remove_code (no message)
 remove_code_no_message <- function(vector, remove) {
   if ( any(str_detect(vector, ",")==TRUE, na.rm = TRUE) ) {#Check if the vector represent a SA or MA question; Check for MA condition
@@ -633,5 +632,57 @@ back_code_v <- function(raw, coded, others_code, SN_matching) {
     }
   }
 }
+
+#' @title Get the number of mentions in a MA response
+#'
+#' @description This function is to Get the number of mentions in a MA response
+#'
+#' @param vector
+#' character vector (MA question)
+#'
+#' @examples
+#' mentions(c("1", "2,4", "3,5"))#1 2 2
+#'
+#' @export mentions
+#'
+mentions <- function(vector) {
+  vector_temp = ifelse(is.na(vector)==TRUE, "", vector)
+  vector_numeric = lapply(strsplit(vector_temp, ","), FUN = as.numeric)
+  results = lapply(vector_numeric, length)
+  results = unlist(results)
+  return(results)
+}
+
+#' @title Transform ranking variables
+#'
+#' @description This function is to transform ranking variables to comma-separated MA question
+#'
+#' @param vector
+#' character vector
+#'
+#' @param no_R
+#' single integer
+#'
+#' @examples
+#' #Create a ranking dataframe
+#' ranking_df = data.frame(attribute1 = c("3", "3", "2", "2"), attribute2 = c("1", "1", "1", "3"), attribute3 = c("2", "2", "4", "1"), attribute4 = c("4", "4", "3", "4"))
+#' #Apply the function rowwise
+#' apply(ranking_df, 1, rank_trans, no_R = 4)#"2,3,1,4" "2,3,1,4" "2,1,4,3" "3,1,2,4"; the first response means rank 1, the second means rank 2 and so on
+#'
+#' @details
+#' Argument "no_R" indicates how many attributes the respondents should rank
+#' When codes of attributes are not consecutive, e.g. attribute 4 corresponds to code 8, instead of code 4, function replace_code() can be used to replace those code 4 by code 8
+#'
+#' @export rank_trans
+#'
+rank_trans = function (vector, no_R) {
+  result = c()
+  for (i in 1:no_R) {
+    result = append(result, match(i, vector))
+  }
+  result = result[!is.na(result)]
+  return(paste(as.character(result), collapse =","))
+}
+
 
 
