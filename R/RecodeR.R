@@ -671,7 +671,7 @@ mentions <- function(vector) {
 #'
 #' @details
 #' Argument "no_R" indicates how many attributes the respondents should rank
-#' When codes of attributes are not consecutive, e.g. attribute 4 corresponds to code 8, instead of code 4, function replace_code() can be used to replace those code 4 by code 8
+#' When codes of attributes are not consecutive, e.g. attribute 4 corresponds to code 8, instead of code 4, function replace_code() can be used to replace code 4 by code 8
 #'
 #' @export rank_trans
 #'
@@ -684,5 +684,41 @@ rank_trans = function (vector, no_R) {
   return(paste(as.character(result), collapse =","))
 }
 
+#' @title Reverse codes
+#'
+#' @description This function is to reverse codes in SA question
+#'
+#' @param vector
+#' character vector
+#'
+#' @examples
+#' a = c("1", "2", "3", "4", "5", "9", NA)
+#' reverse_code(a) #9  8  7  6  5  1 NA
+#'
+#' @details
+#' Note that for the sake of subsequent processing of data, the output of this function is numeric
+#'
+#' @export reverse_code
+#'
+reverse_code = function(vector) {
+  #the vector should be character vector at first
+  vector_num = as.numeric(vector)
+  max = max(vector_num, na.rm = TRUE)
+  min = min(vector_num, na.rm = TRUE)
+  codes = c(min:max)
+  codes_char = as.character(codes)
+  results = rep("", length(vector))
+  for (i in 0:(length(codes)-1)) {
+    temp_results = ifelse(vector == codes_char[1+i], codes[length(codes)-i], "")
+    # print(i)
+    # print(codes_char[1+i])
+    # print(codes[length(codes)-i])
+    # print(temp_results)
+    results = combine(results, temp_results)#NA as empty string
+  }
+  results = ifelse(results == "", NA, results)#Gives NA as results
+  results = as.numeric(results)
+  return(results)
+}
 
 

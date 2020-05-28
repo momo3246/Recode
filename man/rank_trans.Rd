@@ -16,7 +16,7 @@ This function is to transform ranking variables to comma-separated MA question
 }
 \details{
 Argument "no_R" indicates how many attributes the respondents should rank
-When codes of attributes are not consecutive, e.g. attribute 4 corresponds to code 8, instead of code 4, function replace_code() can be used to replace those code 4 by code 8
+When codes of attributes are not consecutive, e.g. attribute 4 corresponds to code 8, instead of code 4, function replace_code() can be used to replace code 4 by code 8
 }
 \examples{
 #Create a ranking dataframe
