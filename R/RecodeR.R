@@ -491,15 +491,19 @@ shifter <- function(vector=x, distance=n, direction = c("left", "right")) {
 #' @param direction
 #' c("left", "right")
 #'
+#' @param keep_zero
+#' logical
+#'
 #' @examples
-#' rotate_JS(c(1:4), "right")#"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
-#' rotate_JS(c(1:4), "left")#"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
+#' rotate_JS(c(1:4), "right", keep_zero=TRUE)#"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
+#' rotate_JS(c(1:4), "left", keep_zero=TRUE)#"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
 #'
 #' @import tibble
+#' @import stringr
 #'
 #' @export rotate_JS
 
-rotate_JS <- function (vector=x, direction=c("left", "right")) {
+rotate_JS <- function (vector=x, direction=c("left", "right"), keep_zero) {
   # Initiate empty dataframe
   df = data.frame(matrix(NA, nrow = length(vector), ncol = length(vector)))
   # Rotate the elements and put each rotation into the dataframe
@@ -532,7 +536,11 @@ rotate_JS <- function (vector=x, direction=c("left", "right")) {
   #Append the last syntax column with value "],"
   df2 = add_column(df1, !!(paste("syntax", length(vector)+2, sep="")) := rep("],", length(vector)), .after = total_no_of_cols-1)# Fixed
 
-  return(apply(df2, 1, paste, collapse=""))
+  if (keep_zero == TRUE) {
+    return(apply(df2, 1, paste, collapse=""))
+  } else {
+    return(str_replace(apply(df2, 1, paste, collapse=""), "0,", ""))
+  }
 }
 
 #' @title Back code OTHERS into pre-coded question (compatible with pipe operator)

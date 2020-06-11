@@ -4,18 +4,20 @@
 \alias{rotate_JS}
 \title{Create rotational combination in JS array format}
 \usage{
-rotate_JS(vector = x, direction = c("left", "right"))
+rotate_JS(vector = x, direction = c("left", "right"), keep_zero)
 }
 \arguments{
 \item{vector}{numeric vector}
 
 \item{direction}{c("left", "right")}
+
+\item{keep_zero}{logical}
 }
 \description{
 This function is exclusively used for Rail Gen 2.0 project series to create rotational combination in JS array format
 }
 \examples{
-rotate_JS(c(1:4), "right")#"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
-rotate_JS(c(1:4), "left")#"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
+rotate_JS(c(1:4), "right", keep_zero=TRUE)#"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
+rotate_JS(c(1:4), "left", keep_zero=TRUE)#"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
 
 }
