@@ -729,4 +729,71 @@ reverse_code = function(vector) {
   return(results)
 }
 
+#' @title Concatenate duplicate rows
+#'
+#' @description This function is to concatenate duplicate rows
+#'
+#' @param id_col
+#' character vector
+#'
+#' @param concat_col
+#' character vector
+#'
+#' @param sep
+#' character
+#'
+#' @examples
+#' #With two duplicated id; total = 29
+#' id = c("1","2","3","4","5","5","6","7","8","9","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27")
+#' concat_col = c("4902110341812","5012427109001","8809064520019","7613036273800","9555076300000","310060143891","7613036943505","021500058506",
+#' "078895405552","078895100020","310090143793","4898828031025","4901515111150","4902402534090","4899888001331","4902380188605","4901577042072",
+#' "4902105222843","8801043014830","4902105051306","4901734032083","4901085049464","4901033635053","4901033630034","4973344030124","4973652024501",
+#' "4897020730699","4979369150106","8801121763933")
+#' #Reduced to 27
+#' paste_dupr(id, concat_col, "/")
+#'
+#'
+#' @details
+#' Note that this function also de-duplicate elements when concantenating.
+#'
+#' @export paste_dupr
+#'
+
+paste_dupr <- function(id_col, concat_col, sep) {
+
+  counter = 1
+
+  n = length(id_col)
+  results = c()
+
+  while (counter <= n) {
+    r_start = counter#226
+    r_end = r_start#226
+
+    while (counter < n) {#n=226; counter=226
+      counter = counter + 1
+      if (id_col[counter] != id_col[counter-1]) {
+        counter = counter - 1
+        break
+      }
+    }
+
+    r_end = counter
+
+    if (r_start == r_end) {
+      results = append(results, concat_col[counter])
+    } else {
+      dedup1 = concat_col[r_start:r_end]
+      dedup2 = dedup1[!duplicated(dedup1)]
+      results = append(results, paste(dedup2, collapse = sep))
+    }
+    # if ( id_col[counter] == id_col[counter+1] ) {
+    #   joined_dup_bar_code = paste(concat_col[counter], concat_col[counter+1])
+    # }
+    counter = counter + 1
+  }
+
+  return(results)
+}
+
 
