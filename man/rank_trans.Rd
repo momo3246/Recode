@@ -20,8 +20,13 @@ When codes of attributes are not consecutive, e.g. attribute 4 corresponds to co
 }
 \examples{
 #Create a ranking dataframe
-ranking_df = data.frame(attribute1 = c("3", "3", "2", "2"), attribute2 = c("1", "1", "1", "3"), attribute3 = c("2", "2", "4", "1"), attribute4 = c("4", "4", "3", "4"))
+ranking_df = data.frame(attribute1 = c("3", "3", "2", "2"),
+attribute2 = c("1", "1", "1", "3"),
+attribute3 = c("2", "2", "4", "1"),
+attribute4 = c("4", "4", "3", "4"))
 #Apply the function rowwise
-apply(ranking_df, 1, rank_trans, no_R = 4)#"2,3,1,4" "2,3,1,4" "2,1,4,3" "3,1,2,4"; the first response means rank 1, the second means rank 2 and so on
+apply(ranking_df, 1, rank_trans, no_R = 4)
+#"2,3,1,4" "2,3,1,4" "2,1,4,3" "3,1,2,4";
+#the first response means rank 1, the second means rank 2 and so on
 
 }

@@ -32,7 +32,11 @@ data <- data.frame(vQ1=c(1, 3, 4, 99),
                    vQ5=c(1,2,3,4), stringsAsFactors=FALSE)##Populate the "data" dataframe
 code_spec <- data.frame(variable_name=rep(c("vQ1", "vQ2", "vQ3", "vQ4"), each=5),
                         code=rep(c(1,2,3,4,5), times=4),
-                        label=rep(c("1. Ricoh", "2. Fuji Xerox", "3. Canon", "4. Konica Minolta", "5. Sharp"), times=4))##Populate the "code_spec" dataframe
+                        label=rep(c("1. Ricoh",
+                        "2. Fuji Xerox",
+                        "3. Canon",
+                        "4. Konica Minolta",
+                        "5. Sharp"), times=4))##Populate the "code_spec" dataframe
 
 labelling(data, code_spec)
 

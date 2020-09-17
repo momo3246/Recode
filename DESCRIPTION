@@ -1,12 +1,11 @@
 Package: recode
 Type: Package
-Title: Recodes or transforms data collected from market reserach study
+Title: Recodes or Transforms Data
 Version: 5.0.0
 Author: Kelvin Fung
 Maintainer: Kelvin Fung <kit319@hotmail.com>
-Description: This package performs various operations in data transfomation commonly seen in market reserach study
-License: GPL-2
+Description: This package performs various manipulation on data
 Encoding: UTF-8
 Imports: stringr, plyr, dplyr, tibble
 LazyData: FALSE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1

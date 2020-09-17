@@ -149,8 +149,12 @@ dup_remove_no_message  <- function(vector) {
 #'
 #'
 #' @examples
-#' raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
-#' coded <- data.frame(SN=c(2000, 1, 3, 4), coded_data=c(NA, "2,3", "9", "97"), stringsAsFactors=FALSE)##Populate another dataframe
+#' raw <- data.frame(SN=c(1, 2000, 3, 4),
+#' raw_data=c("1,2,97", "1,3", "97", "1,2,97"),
+#' stringsAsFactors=FALSE)##Populate a dataframe
+#' coded <- data.frame(SN=c(2000, 1, 3, 4),
+#' coded_data=c(NA, "2,3", "9", "97"),
+#' stringsAsFactors=FALSE)##Populate another dataframe
 #' back_code(raw, coded, others_code = 97, SN_matching = TRUE)
 #' #[[1]] "1,2,3"  "1,3"    "9"      "1,2,97";
 #' #[[2]]
@@ -161,9 +165,11 @@ dup_remove_no_message  <- function(vector) {
 #' #4    4   1,2,97         97  1,2,97
 #'
 #'# For matched SN
-#'raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
-#'coded1 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
-#'back_code(raw1$raw_data, coded1$coded_data, others_code = 97, SN_matching = FALSE)
+#'raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"),
+#'stringsAsFactors=FALSE)##Populate a dataframe
+#'coded1 <- data.frame(coded_data=c("5", NA, "9", "8"),
+#'stringsAsFactors=FALSE)##Populate another dataframe
+#'back_code(raw1$raw_data, coded1$coded_data, others_code = 97, FALSE)
 #'#[[1]]
 #'#[1] "1,2,5" "1,3"   "9"     "1,2,8"
 #'
@@ -175,9 +181,11 @@ dup_remove_no_message  <- function(vector) {
 #'#[4,] "1,2,97" "8"   "1,2,8"
 #'
 #'# For OTHERS code other than code 97
-#'raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"), stringsAsFactors=FALSE)##Populate a dataframe
-#'coded2 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
-#'back_code(raw2$raw_data, coded2$coded_data, others_code = 91, SN_matching = FALSE)
+#'raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"),
+#'stringsAsFactors=FALSE)##Populate a dataframe
+#'coded2 <- data.frame(coded_data=c("5", NA, "9", "8"),
+#'stringsAsFactors=FALSE)##Populate another dataframe
+#'back_code(raw2$raw_data, coded2$coded_data, others_code = 91, FALSE)
 #'
 #' @import stringr
 #'
@@ -282,7 +290,11 @@ combine <- function(vector1, vector2) {
 #'                    vQ5=c(1,2,3,4), stringsAsFactors=FALSE)##Populate the "data" dataframe
 #' code_spec <- data.frame(variable_name=rep(c("vQ1", "vQ2", "vQ3", "vQ4"), each=5),
 #'                         code=rep(c(1,2,3,4,5), times=4),
-#'                         label=rep(c("1. Ricoh", "2. Fuji Xerox", "3. Canon", "4. Konica Minolta", "5. Sharp"), times=4))##Populate the "code_spec" dataframe
+#'                         label=rep(c("1. Ricoh",
+#'                         "2. Fuji Xerox",
+#'                         "3. Canon",
+#'                         "4. Konica Minolta",
+#'                         "5. Sharp"), times=4))##Populate the "code_spec" dataframe
 #'
 #' labelling(data, code_spec)
 #'
@@ -495,8 +507,10 @@ shifter <- function(vector=x, distance=n, direction = c("left", "right")) {
 #' logical
 #'
 #' @examples
-#' rotate_JS(c(1:4), "right", keep_zero=TRUE)#"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
-#' rotate_JS(c(1:4), "left", keep_zero=TRUE)#"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
+#' rotate_JS(c(1:4), "right", keep_zero=TRUE)
+#' #"1:[0,1,2,3,4]," "2:[0,4,1,2,3]," "3:[0,3,4,1,2]," "4:[0,2,3,4,1],"
+#' rotate_JS(c(1:4), "left", keep_zero=TRUE)
+#' #"1:[0,1,2,3,4]," "2:[0,2,3,4,1]," "3:[0,3,4,1,2]," "4:[0,4,1,2,3],"
 #'
 #' @import tibble
 #' @import stringr
@@ -564,8 +578,12 @@ rotate_JS <- function (vector=x, direction=c("left", "right"), keep_zero) {
 #'
 #'
 #' @examples
-#' raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
-#' coded <- data.frame(SN=c(2000, 1, 3, 4), coded_data=c(NA, "2,3", "9", "97"), stringsAsFactors=FALSE)##Populate another dataframe
+#' ##Populate a dataframe
+#' raw <- data.frame(SN=c(1, 2000, 3, 4),
+#' raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)
+#' coded <- data.frame(SN=c(2000, 1, 3, 4),
+#' coded_data=c(NA, "2,3", "9", "97"),
+#' stringsAsFactors=FALSE)##Populate another dataframe
 #' back_code(raw, coded, others_code = 97, SN_matching = TRUE)
 #' #[[1]] "1,2,3"  "1,3"    "9"      "1,2,97";
 #' #[[2]]
@@ -576,9 +594,11 @@ rotate_JS <- function (vector=x, direction=c("left", "right"), keep_zero) {
 #' #4    4   1,2,97         97  1,2,97
 #'
 #'# For matched SN
-#'raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
-#'coded1 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
-#'back_code(raw1$raw_data, coded1$coded_data, others_code = 97, SN_matching = FALSE)
+#'raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"),
+#'stringsAsFactors=FALSE)##Populate a dataframe
+#'coded1 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)
+#'##Populate another dataframe
+#'back_code(raw1$raw_data, coded1$coded_data, others_code = 97, FALSE)
 #'#[[1]]
 #'#[1] "1,2,5" "1,3"   "9"     "1,2,8"
 #'
@@ -590,9 +610,11 @@ rotate_JS <- function (vector=x, direction=c("left", "right"), keep_zero) {
 #'#[4,] "1,2,97" "8"   "1,2,8"
 #'
 #'# For OTHERS code other than code 97
-#'raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"), stringsAsFactors=FALSE)##Populate a dataframe
-#'coded2 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
-#'back_code(raw2$raw_data, coded2$coded_data, others_code = 91, SN_matching = FALSE)
+#'raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"),
+#'stringsAsFactors=FALSE)##Populate a dataframe
+#'coded2 <- data.frame(coded_data=c("5", NA, "9", "8"),
+#'stringsAsFactors=FALSE)##Populate another dataframe
+#'back_code(raw2$raw_data, coded2$coded_data, others_code = 91, FALSE)
 #'
 #' @import stringr
 #'
@@ -673,9 +695,14 @@ mentions <- function(vector) {
 #'
 #' @examples
 #' #Create a ranking dataframe
-#' ranking_df = data.frame(attribute1 = c("3", "3", "2", "2"), attribute2 = c("1", "1", "1", "3"), attribute3 = c("2", "2", "4", "1"), attribute4 = c("4", "4", "3", "4"))
+#' ranking_df = data.frame(attribute1 = c("3", "3", "2", "2"),
+#' attribute2 = c("1", "1", "1", "3"),
+#' attribute3 = c("2", "2", "4", "1"),
+#' attribute4 = c("4", "4", "3", "4"))
 #' #Apply the function rowwise
-#' apply(ranking_df, 1, rank_trans, no_R = 4)#"2,3,1,4" "2,3,1,4" "2,1,4,3" "3,1,2,4"; the first response means rank 1, the second means rank 2 and so on
+#' apply(ranking_df, 1, rank_trans, no_R = 4)
+#' #"2,3,1,4" "2,3,1,4" "2,1,4,3" "3,1,2,4";
+#' #the first response means rank 1, the second means rank 2 and so on
 #'
 #' @details
 #' Argument "no_R" indicates how many attributes the respondents should rank
@@ -744,11 +771,18 @@ reverse_code = function(vector) {
 #'
 #' @examples
 #' #With two duplicated id; total = 29
-#' id = c("1","2","3","4","5","5","6","7","8","9","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27")
-#' concat_col = c("4902110341812","5012427109001","8809064520019","7613036273800","9555076300000","310060143891","7613036943505","021500058506",
-#' "078895405552","078895100020","310090143793","4898828031025","4901515111150","4902402534090","4899888001331","4902380188605","4901577042072",
-#' "4902105222843","8801043014830","4902105051306","4901734032083","4901085049464","4901033635053","4901033630034","4973344030124","4973652024501",
-#' "4897020730699","4979369150106","8801121763933")
+#' id = c("1","2","3","4","5","5","6","7","8","9","9","10",
+#' "11","12","13","14","15","16","17","18","19","20",
+#' "21","22","23","24","25","26","27")
+#' concat_col = c("4902110341812","5012427109001","8809064520019",
+#' "7613036273800",
+#' "9555076300000","310060143891","7613036943505","021500058506",
+#' "078895405552","078895100020","310090143793","4898828031025",
+#' "4901515111150","4902402534090","4899888001331","4902380188605",
+#' "4901577042072", "4902105222843","8801043014830","4902105051306",
+#' "4901734032083","4901085049464","4901033635053","4901033630034",
+#' "4973344030124","4973652024501","4897020730699","4979369150106",
+#' "8801121763933")
 #' #Reduced to 27
 #' paste_dupr(id, concat_col, "/")
 #'

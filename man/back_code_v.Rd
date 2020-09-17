@@ -22,8 +22,12 @@ This function is to back code verbatim into a pre-coded question
 Inputs of this function vary upon usage; If no need for SN matching, set FALSE in the argument "SN_matching", or vice
 }
 \examples{
-raw <- data.frame(SN=c(1, 2000, 3, 4), raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
-coded <- data.frame(SN=c(2000, 1, 3, 4), coded_data=c(NA, "2,3", "9", "97"), stringsAsFactors=FALSE)##Populate another dataframe
+##Populate a dataframe
+raw <- data.frame(SN=c(1, 2000, 3, 4),
+raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)
+coded <- data.frame(SN=c(2000, 1, 3, 4),
+coded_data=c(NA, "2,3", "9", "97"),
+stringsAsFactors=FALSE)##Populate another dataframe
 back_code(raw, coded, others_code = 97, SN_matching = TRUE)
 #[[1]] "1,2,3"  "1,3"    "9"      "1,2,97";
 #[[2]]
@@ -34,9 +38,11 @@ back_code(raw, coded, others_code = 97, SN_matching = TRUE)
 #4    4   1,2,97         97  1,2,97
 
 # For matched SN
-raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"), stringsAsFactors=FALSE)##Populate a dataframe
-coded1 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
-back_code(raw1$raw_data, coded1$coded_data, others_code = 97, SN_matching = FALSE)
+raw1 <- data.frame(raw_data=c("1,2,97", "1,3", "97", "1,2,97"),
+stringsAsFactors=FALSE)##Populate a dataframe
+coded1 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)
+##Populate another dataframe
+back_code(raw1$raw_data, coded1$coded_data, others_code = 97, FALSE)
 #[[1]]
 #[1] "1,2,5" "1,3"   "9"     "1,2,8"
 
@@ -48,8 +54,10 @@ back_code(raw1$raw_data, coded1$coded_data, others_code = 97, SN_matching = FALS
 #[4,] "1,2,97" "8"   "1,2,8"
 
 # For OTHERS code other than code 97
-raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"), stringsAsFactors=FALSE)##Populate a dataframe
-coded2 <- data.frame(coded_data=c("5", NA, "9", "8"), stringsAsFactors=FALSE)##Populate another dataframe
-back_code(raw2$raw_data, coded2$coded_data, others_code = 91, SN_matching = FALSE)
+raw2 <- data.frame(raw_data=c("1,2,91", "1,3", "91", "1,2,91"),
+stringsAsFactors=FALSE)##Populate a dataframe
+coded2 <- data.frame(coded_data=c("5", NA, "9", "8"),
+stringsAsFactors=FALSE)##Populate another dataframe
+back_code(raw2$raw_data, coded2$coded_data, others_code = 91, FALSE)
 
 }
