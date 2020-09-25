@@ -830,4 +830,80 @@ paste_dupr <- function(id_col, concat_col, sep) {
   return(results)
 }
 
+#' @title Fabricate header and stub for the generation of Summary Table
+#'
+#' @description This function is to fabricate header and stub for the generation of Summary Table
+#'
+#' @param dataframe
+#' dataframe
+#'
+#' @examples
+#'
+#' att1 = c ("1", "2", "3", "4", "5")
+#' att2 = c (NA, "2", "3", NA, "5")
+#' att3 = c (NA, NA, NA, NA, NA)
+#' att4 = c ("1", "2", "4", "3", "1")
+#' att5 = c ("1", "2", "5", NA, "5")
+#'
+#' df = data.frame(att1, att2, att3, att4, att5)
+#'
+#' sum_t(df)
+#'
+#' @details
+#' Use in combination with the following spec in SC:
+#'
+#' Q30M             Header_Qno. Label
+#' c1               Att1
+#' C2               Att2
+#' c3               Att3
+#'
+#' Q31C   Qno*      Stub_Qno. Label
+#'
+#' *Qno where individual att come up
+#'
+#'
+#' @export sum_t
+#'
+
+sum_t = function(dataframe) {
+
+  excess_A <- function(vector) {
+    results <- gsub("^Á*|(?<=Á)Á|Á*$", "", vector, perl=T)
+    ifelse(is.na(results), "", results)#Just to turn NA (NOT "NA" string) into empty string
+  }
+
+  #Initializing variables
+  header_df = data.frame(dummy = rep(NA, nrow(dataframe)))
+  stub_df = data.frame(dummy = rep(NA, nrow(dataframe)))
+
+  #Preparing the header df
+  for (m in 1:ncol(dataframe)) {
+    header_df = cbind(header_df, ifelse(is.na(dataframe[, m]) == FALSE, m, ""))
+  }
+
+  header_df = header_df[, -1] %>%
+    apply(., 1, paste, collapse = "Á") %>%
+    excess_A() %>%
+    ifelse(.!="", paste(., "Á", sep=""), .)
+
+  #return(header_df)
+
+  #Preparing the stub df
+  for (k in 1:ncol(dataframe)) {
+    stub_df = cbind(stub_df, ifelse(is.na(dataframe[, k]) == FALSE, dataframe[, k, drop = TRUE], ""))
+  }
+
+  stub_df = stub_df[, -1] %>%
+    apply(., 1, paste, collapse = "Á") %>%
+    excess_A() %>%
+    ifelse(.!="", paste(., "Á", sep=""), .)
+
+  #return(stub_df)
+
+  results = data.frame(header = header_df, stub = stub_df)
+
+  return(results)
+
+}
+
 

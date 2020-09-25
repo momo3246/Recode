@@ -1,7 +1,7 @@
 Package: recode
 Type: Package
 Title: Recodes or Transforms Data
-Version: 5.0.0
+Version: 5.1.0
 Author: Kelvin Fung
 Maintainer: Kelvin Fung <kit319@hotmail.com>
 Description: This package performs various manipulation on data
@@ -9,3 +9,4 @@ Encoding: UTF-8
 Imports: stringr, plyr, dplyr, tibble
 LazyData: FALSE
 RoxygenNote: 7.1.1
+License: GPL-3
