@@ -16,9 +16,13 @@ This function is to fabricate header and stub for the generation of Summary Tabl
 Use in combination with the following spec in SC:
 
 Q30M             Header_Qno. Label
-c1               Att1
+
+C1               Att1
+
 C2               Att2
-c3               Att3
+
+C3               Att3
+
 
 Q31C   Qno*      Stub_Qno. Label
 
